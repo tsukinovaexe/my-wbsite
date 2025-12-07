@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Me | Melanyuki</title>
+
+<style>
+    body {
+        margin: 0;
+        background: #000;
+        font-family: "Courier New", monospace;
+        color: #f4c542;
+        overflow-x: hidden;
+    }
+
+    nav {
+        width: 100%;
+        padding: 20px 0;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(4px);
+        position: fixed;
+        top: 0;
+        z-index: 999;
+    }
+    nav a {
+        color: #f4c542;
+        margin: 0 20px;
+        text-decoration: none;
+        font-size: 18px;
+        transition: .3s;
+    }
+    nav a:hover {
+        text-shadow: 0 0 10px #ffd147;
+    }
+
+    .decrypt-container {
+        margin-top: 140px;
+        text-align: center;
+        font-size: 26px;
+        opacity: 0;
+        animation: fadeIn 1.2s forwards;
+    }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    .contact-console {
+        width: 60%;
+        margin: 50px auto 0;
+        background: rgba(20,20,20,0.75);
+        border: 1px solid #f4c542;
+        border-radius: 12px;
+        padding: 30px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: 1s ease;
+        box-shadow: 0 0 25px rgba(255,215,0,0.3);
+    }
+
+    label {
+        display: block;
+        text-align: left;
+        margin: 10px 0 5px;
+        color: #ffd147;
+    }
+    input, textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        background: #000;
+        border: 1px solid #f4c542;
+        color: #ffd147;
+        margin-bottom: 15px;
+    }
+    button {
+        width: 100%;
+        padding: 14px;
+        background: #f4c542;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 12px;
+        font-weight: bold;
+    }
+    button:hover {
+        box-shadow: 0 0 14px #f4c542;
+    }
+
+    .social-console {
+        margin-top: 50px;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: 1s ease;
+    }
+    .console-title {
+        margin-bottom: 15px;
+        font-size: 16px;
+    }
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .social-icon {
+        padding: 12px 20px;
+        border: 1px solid #f4c542;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #f4c542;
+        position: relative;
+        overflow: hidden;
+        transition: .3s ease;
+    }
+    .social-icon::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -110%;
+        width: 200%;
+        height: 2px;
+        background: #f4c542;
+        transform: translateY(-50%);
+        transition: .35s ease;
+    }
+    .social-icon:hover::after {
+        left: 110%;
+    }
+    .social-icon:hover {
+        background-color: rgba(255,215,0,0.08);
+        box-shadow: 0 0 15px #f4c542;
+        transform: translateY(-3px);
+    }
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Me</a>
+    <a href="education.html">Education</a>
+    <a href="work.html">Work</a>
+    <a href="contact.html">Contact Me</a>
+</nav>
+
+<div class="decrypt-container" id="decryptMessage"></div>
+
+<div class="contact-console" id="contactConsole">
+    <form action="https://formsubmit.co/zoeykaasik@gmail.com" method="POST">
+        
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="New Warrior Contact Message! ⚔️">
+
+        <label>Name</label>
+        <input type="text" name="name" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>Message</label>
+        <textarea rows="5" name="message" required></textarea>
+
+        <button type="submit">Send Message ⚔️</button>
+    </form>
+</div>
+
+<div class="social-console" id="socialConsole">
+    <p class="console-title">> Backup Access Channels Activated</p>
+
+    <div class="social-links">
+        <a href="https://www.linkedin.com/in/melany-kaasik/" target="_blank" class="social-icon">LinkedIn</a>
+        <a href="https://www.instagram.com/mainly.melany/" target="_blank" class="social-icon">Instagram</a>
+        <a href="https://www.youtube.com/@mainly.melany" target="_blank" class="social-icon">YouTube</a>
+        <a href="https://www.facebook.com/MelanyKaasik/?locale=fi_FI" target="_blank" class="social-icon">Facebook</a>
+    </div>
+</div>
+
+<script>
+// Decrypt Text Animation
+const text = "> Decrypting communication channel...\n> Identity confirmed: Melanyuki\n> You have permission to contact.";
+let i = 0;
+function decryptEffect() {
+    if (i < text.length) {
+        const msg = document.getElementById("decryptMessage");
+        msg.innerHTML = text.substring(0, i).replace(/\n/g, "<br>");
+        i++;
+        setTimeout(decryptEffect, 18);
+    } else {
+        setTimeout(() => {
+            document.getElementById("contactConsole").style.opacity = "1";
+            document.getElementById("contactConsole").style.transform = "translateY(0)";
+        }, 500);
+        setTimeout(() => {
+            document.getElementById("socialConsole").style.opacity = "1";
+            document.getElementById("socialConsole").style.transform = "translateY(0)";
+        }, 1200);
+    }
+}
+setTimeout(decryptEffect, 700);
+</script>
+
+</body>
+</html>

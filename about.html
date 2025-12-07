@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Me • MELANYUKI</title>
+
+<style>
+    :root {
+        --gold: #d4af37;
+        --gold-soft: #ffea9a;
+        --bg-dark: #050505;
+    }
+
+    body {
+        background-color: var(--bg-dark);
+        color: var(--gold);
+        font-family: "Montserrat", system-ui, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        scroll-behavior: smooth;
+    }
+
+    /* NAVBAR */
+    nav {
+        margin-top: 20px;
+    }
+    nav a {
+        color: var(--gold);
+        text-decoration: none;
+        font-size: 18px;
+        margin: 0 20px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        transition: 0.3s;
+    }
+    nav a:hover {
+        color: #fff;
+        text-shadow: 0 0 10px var(--gold);
+    }
+    nav a.active {
+        color: #fff;
+        text-shadow: 0 0 14px #fff;
+    }
+
+    .page-container {
+        margin: 90px auto 80px;
+        max-width: 1100px;
+        padding: 0 20px;
+    }
+
+    h1 {
+        font-size: 52px;
+        margin-bottom: 10px;
+        text-shadow: 0 0 25px var(--gold);
+        animation: glowPulse 3s infinite;
+    }
+
+    .subtitle {
+        font-size: 22px;
+        opacity: 0.85;
+        margin-bottom: 40px;
+    }
+
+    /* MAIN LAYOUT */
+    .about-layout {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 60px;
+    }
+
+    /* 3D HOLOGRAM PHOTO CARD */
+    .photo-card-wrapper {
+        perspective: 1000px;
+    }
+
+    .photo-card {
+        position: relative;
+        width: 280px;
+        height: 380px;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 2px solid var(--gold);
+        box-shadow: 0 0 30px rgba(212,175,55,0.7);
+        background: radial-gradient(circle at top, #222 0%, #000 55%);
+        transform-style: preserve-3d;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+    }
+
+    .photo-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: saturate(1.05) contrast(1.05);
+        transform: translateZ(40px);
+    }
+
+    .photo-holo {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(120deg, rgba(255,255,255,0.12), transparent 40%, transparent),
+          radial-gradient(circle at top, rgba(255,0,0,0.25), transparent 60%);
+        mix-blend-mode: screen;
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+    }
+
+    .photo-card:hover {
+        box-shadow: 0 0 45px rgba(255,0,0,0.7);
+    }
+    .photo-card:hover .photo-holo {
+        opacity: 1;
+    }
+
+    /* TEXT BOX */
+    .about-box {
+        flex: 1;
+        min-width: 280px;
+        background: rgba(20,20,20,0.7);
+        border: 2px solid var(--gold);
+        border-radius: 18px;
+        box-shadow: 0 0 25px rgba(212,175,55,0.7);
+        padding: 25px 28px;
+        text-align: left;
+        backdrop-filter: blur(8px);
+    }
+
+    .about-box p {
+        font-size: 19px;
+        line-height: 1.7;
+        opacity: 0.96;
+        margin-top: 0;
+    }
+
+    .about-box strong {
+        color: var(--gold-soft);
+    }
+
+    /* CV SECTION – GLITCH HACK REVEAL */
+    .cv-section {
+        margin: 40px auto 60px;
+        max-width: 700px;
+    }
+
+    .cv-title {
+        font-size: 28px;
+        margin-bottom: 8px;
+        text-shadow: 0 0 14px var(--gold);
+    }
+
+    .cv-subtitle {
+        font-size: 16px;
+        opacity: 0.8;
+        margin-bottom: 18px;
+    }
+
+    .cv-button {
+        background: transparent;
+        border: 2px solid var(--gold);
+        color: var(--gold);
+        padding: 10px 26px;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        border-radius: 999px;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: 0.25s;
+        box-shadow: 0 0 18px rgba(212,175,55,0.6);
+    }
+
+    .cv-button:hover {
+        background: var(--gold);
+        color: #000;
+        box-shadow: 0 0 26px rgba(255,0,0,0.8);
+    }
+
+    .cv-panel {
+        margin-top: 20px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.6s ease;
+    }
+
+    .cv-panel.open {
+        max-height: 260px;
+    }
+
+    .cv-inner {
+        position: relative;
+        padding: 20px;
+        border-radius: 14px;
+        border: 1px solid var(--gold);
+        background:
+          repeating-linear-gradient(
+              to bottom,
+              rgba(255,255,255,0.03),
+              rgba(255,255,255,0.03) 2px,
+              transparent 2px,
+              transparent 4px
+          );
+        background-color: #050505;
+        box-shadow: 0 0 25px rgba(255,0,0,0.6);
+        overflow: hidden;
+    }
+
+    .cv-glitch-line {
+        position: absolute;
+        left: -40%;
+        width: 180%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #ff0000, var(--gold-soft), transparent);
+        opacity: 0.8;
+        animation: scan 2.2s linear infinite;
+    }
+
+    .cv-glitch-line:nth-child(1) { top: 20%; animation-delay: 0s; }
+    .cv-glitch-line:nth-child(2) { top: 50%; animation-delay: .6s; }
+    .cv-glitch-line:nth-child(3) { top: 80%; animation-delay: 1.2s; }
+
+    .cv-text {
+        position: relative;
+        z-index: 2;
+        text-align: left;
+        font-size: 17px;
+        line-height: 1.6;
+    }
+
+    .cv-link {
+        display: inline-block;
+        margin-top: 14px;
+        padding: 8px 20px;
+        border-radius: 999px;
+        border: 1px solid var(--gold-soft);
+        color: #000;
+        background: var(--gold-soft);
+        text-decoration: none;
+        font-weight: 600;
+        letter-spacing: .5px;
+        transition: 0.25s;
+    }
+
+    .cv-link:hover {
+        background: #000;
+        color: var(--gold-soft);
+        box-shadow: 0 0 18px var(--gold-soft);
+    }
+
+    /* KATANA SKILLS */
+    .skills-section {
+        margin: 30px auto 40px;
+        max-width: 800px;
+        text-align: left;
+    }
+
+    .skills-title {
+        text-align: center;
+        font-size: 26px;
+        margin-bottom: 8px;
+        text-shadow: 0 0 14px var(--gold);
+    }
+
+    .skills-note {
+        text-align: center;
+        font-size: 15px;
+        opacity: .8;
+        margin-bottom: 24px;
+    }
+
+    .skill-row {
+        margin-bottom: 18px;
+    }
+
+    .skill-label {
+        font-size: 17px;
+        margin-bottom: 4px;
+    }
+
+    .skill-bar {
+        position: relative;
+        width: 100%;
+        height: 14px;
+        border-radius: 999px;
+        background: #111;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(255,0,0,0.4);
+    }
+
+    .skill-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 0;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #ff0000, var(--gold));
+        box-shadow: 0 0 18px rgba(255,0,0,0.7);
+        animation: growBar 1.6s forwards;
+    }
+
+    .skill-row:nth-child(1) .skill-fill { animation-delay: .1s; }
+    .skill-row:nth-child(2) .skill-fill { animation-delay: .3s; }
+    .skill-row:nth-child(3) .skill-fill { animation-delay: .5s; }
+    .skill-row:nth-child(4) .skill-fill { animation-delay: .7s; }
+
+    .katana-icon {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translate(-50%, -50%) rotate(45deg);
+        font-size: 18px;
+        filter: drop-shadow(0 0 4px #ff0000);
+        animation: slashMove 1.6s forwards;
+    }
+
+    .skill-row:nth-child(1) .katana-icon { animation-delay: .1s; }
+    .skill-row:nth-child(2) .katana-icon { animation-delay: .3s; }
+    .skill-row:nth-child(3) .katana-icon { animation-delay: .5s; }
+    .skill-row:nth-child(4) .katana-icon { animation-delay: .7s; }
+
+    /* ANIMATIONS */
+    @keyframes glowPulse {
+        0% { text-shadow: 0 0 20px var(--gold); }
+        50% { text-shadow: 0 0 45px var(--gold-soft); }
+        100% { text-shadow: 0 0 20px var(--gold); }
+    }
+
+    @keyframes growBar {
+        from { width: 0; }
+        to { width: var(--level); }
+    }
+
+    @keyframes slashMove {
+        from { left: 0%; }
+        to { left: var(--level); }
+    }
+
+    @keyframes scan {
+        from { transform: translateX(0); }
+        to { transform: translateX(100%); }
+    }
+
+    @media (max-width: 800px) {
+        .about-layout {
+            flex-direction: column;
+        }
+        .about-box {
+            text-align: center;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="about.html" class="active">About Me</a>
+    <a href="education.html">Education</a>
+    <a href="work.html">Work</a>
+    <a href="contact.html">Contact</a>
+</nav>
+
+<div class="page-container">
+    <h1>About Me</h1>
+    <p class="subtitle">Creative coder & designer rising from Finland ⚔️✨</p>
+
+    <div class="about-layout">
+        <!-- 3D HOLO PHOTO CARD -->
+        <div class="photo-card-wrapper">
+            <div class="photo-card" id="photoCard">
+                <img src="images/about-photo.jpg" alt="Portrait of Melany">
+                <div class="photo-holo"></div>
+            </div>
+        </div>
+
+        <!-- TEXT BOX -->
+        <div class="about-box">
+            <p>
+                My name is <strong>Melany</strong> — also known online as
+                <strong>Melanyuki</strong>. I'm a creative coder and designer
+                building my own path out of Finland.
+            </p>
+            <p>
+                I’m <strong>ambitious</strong>, <strong>resilient</strong>, and a
+                <strong>fast learner</strong>. I’m growing my skills in programming,
+                game design, visual design and tech — step by step, project by project.
+            </p>
+            <p>
+                My goals are clear: become a skilled game developer and build a
+                future where my work gives me <strong>financial freedom</strong>.
+                I want to create worlds, stories, and experiences that feel powerful —
+                the same way I’m rebuilding my own life.
+            </p>
+            <p>
+                This is only the prologue of my story. The main game hasn’t even started yet.
+            </p>
+        </div>
+    </div>
+
+    <!-- CV GLITCH HACK REVEAL -->
+    <section class="cv-section">
+        <h2 class="cv-title">CV / Résumé</h2>
+        <p class="cv-subtitle">Click below to decrypt my experience file…</p>
+
+        <button class="cv-button" id="cvToggle">Decrypt CV</button>
+
+        <div class="cv-panel" id="cvPanel">
+            <div class="cv-inner">
+                <div class="cv-glitch-line"></div>
+                <div class="cv-glitch-line"></div>
+                <div class="cv-glitch-line"></div>
+
+                <div class="cv-text">
+                    <p>
+                        Access granted. Here you can view my full CV with detailed
+                        education, work history, and skills.
+                    </p>
+                    <p>
+                        The document opens in a new tab as a PDF. You can
+                        download or print it directly for applications or review.
+                    </p>
+                    <a class="cv-link" href="melanykcv.pdf" target="_blank">
+                        Open CV (PDF)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KATANA SKILL BARS -->
+    <section class="skills-section">
+        <h2 class="skills-title">Skills & Katanas</h2>
+        <p class="skills-note">Each slash shows how far I’ve trained so far.</p>
+
+        <div class="skill-row" style="--level: 80%;">
+            <div class="skill-label">Coding & scripting (C#, Roblox, basics of Java)</div>
+            <div class="skill-bar">
+                <div class="skill-fill"></div>
+                <span class="katana-icon">🗡️</span>
+            </div>
+        </div>
+
+        <div class="skill-row" style="--level: 75%;">
+            <div class="skill-label">Game & level design</div>
+            <div class="skill-bar">
+                <div class="skill-fill"></div>
+                <span class="katana-icon">🗡️</span>
+            </div>
+        </div>
+
+        <div class="skill-row" style="--level: 70%;">
+            <div class="skill-label">Design tools (Photoshop, Blender, UI ideas)</div>
+            <div class="skill-bar">
+                <div class="skill-fill"></div>
+                <span class="katana-icon">🗡️</span>
+            </div>
+        </div>
+
+        <div class="skill-row" style="--level: 85%;">
+            <div class="skill-label">Communication & customer service</div>
+            <div class="skill-bar">
+                <div class="skill-fill"></div>
+                <span class="katana-icon">🗡️</span>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // 3D tilt for photo card
+    const photoCard = document.getElementById('photoCard');
+
+    photoCard.addEventListener('mousemove', (e) => {
+        const rect = photoCard.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        const rotateX = (-y / 20);
+        const rotateY = (x / 20);
+
+        photoCard.style.transform =
+          `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    photoCard.addEventListener('mouseleave', () => {
+        photoCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+
+    // CV panel toggle
+    const cvToggle = document.getElementById('cvToggle');
+    const cvPanel = document.getElementById('cvPanel');
+
+    cvToggle.addEventListener('click', () => {
+        const isOpen = cvPanel.classList.toggle('open');
+        cvToggle.textContent = isOpen ? 'Close CV Panel' : 'Decrypt CV';
+    });
+</script>
+
+</body>
+</html>

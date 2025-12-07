@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MELANYUKI • Home</title>
+
+<style>
+    :root {
+        --gold: #d4af37;
+        --gold-soft: #ffea9a;
+        --red: #ff1a1a;
+        --bg-dark: #050505;
+    }
+
+    body {
+        margin: 0;
+        background-color: var(--bg-dark);
+        color: var(--gold);
+        font-family: "Montserrat", system-ui, sans-serif;
+        text-align: center;
+        overflow-x: hidden;
+    }
+
+    /* NAVBAR */
+    nav {
+        margin-top: 20px;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+    }
+    nav.visible { opacity: 1; }
+    nav a {
+        color: var(--gold);
+        text-decoration: none;
+        font-size: 18px;
+        margin: 0 20px;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+    nav a:hover {
+        color: #fff;
+        text-shadow: 0 0 10px var(--gold);
+    }
+    nav .active {
+        color: #fff;
+        text-shadow: 0 0 14px #fff;
+    }
+
+    /* MAIN CONTENT */
+    .container {
+        margin-top: 100px;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+    }
+    .container.visible { opacity: 1; }
+
+    .card-wrapper {
+        perspective: 1100px;
+        display: inline-block;
+    }
+
+    .card {
+        width: 300px;
+        height: 420px;
+        background: #111;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 2px solid var(--gold);
+        box-shadow: 0 0 28px rgba(212,175,55,0.7);
+        transform-style: preserve-3d;
+        transition: transform 0.2s;
+        margin-bottom: 35px;
+    }
+    .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: translateZ(40px);
+    }
+    .card:hover {
+        transform: rotateX(8deg) rotateY(-8deg);
+    }
+
+    h1 {
+        font-size: 52px;
+        margin-bottom: 10px;
+        text-shadow: 0 0 26px var(--gold);
+    }
+    p.sub {
+        font-size: 20px;
+        opacity: 0.9;
+        max-width: 650px;
+        margin: 0 auto 35px;
+    }
+
+    /* STATS PANEL */
+    @keyframes hudPulse {
+        0% { box-shadow: 0 0 18px rgba(212,175,55,0.5); }
+        50% { box-shadow: 0 0 28px rgba(212,175,55,0.9); }
+        100% { box-shadow: 0 0 18px rgba(212,175,55,0.5); }
+    }
+    .stats-panel {
+        max-width: 650px;
+        margin: 0 auto 40px;
+        text-align: left;
+        background: rgba(15,15,15,0.8);
+        border-radius: 18px;
+        border: 2px solid var(--gold);
+        padding: 18px 20px 20px;
+        animation: hudPulse 4s infinite ease-in-out;
+    }
+
+    .stats-title {
+        font-size: 18px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        opacity: 0.9;
+        text-shadow: 0 0 10px var(--gold);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 1.4fr;
+        row-gap: 8px;
+        column-gap: 10px;
+        font-size: 15px;
+    }
+
+    .stat-label {
+        opacity: 0.8;
+        letter-spacing: 1px;
+        font-size: 13px;
+        text-transform: uppercase;
+    }
+    .stat-value {
+        color: var(--gold-soft);
+        font-weight: 600;
+    }
+
+    .stat-meter {
+        grid-column: 1 / span 2;
+        margin-top: 6px;
+        font-size: 13px;
+    }
+    .meter-bar {
+        width: 100%;
+        height: 10px;
+        border-radius: 999px;
+        background: #111;
+        overflow: hidden;
+        margin-top: 4px;
+    }
+    .meter-fill {
+        width: 73%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--red), var(--gold));
+    }
+
+    /* SAMURAI CONSOLE */
+    .console-section {
+        max-width: 700px;
+        margin: 0 auto 40px;
+        text-align: left;
+    }
+    .console-title {
+        text-align: center;
+        font-size: 22px;
+        margin-bottom: 8px;
+        text-shadow: 0 0 14px var(--gold);
+    }
+    .console-sub {
+        text-align: center;
+        font-size: 14px;
+        opacity: 0.8;
+        margin-bottom: 18px;
+    }
+    .console-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 12px;
+    }
+    .console-buttons button {
+        background: transparent;
+        border-radius: 999px;
+        border: 1px solid var(--gold);
+        color: var(--gold-soft);
+        padding: 8px 18px;
+        font-size: 13px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: 0.25s;
+    }
+    .console-buttons button:hover {
+        background: var(--gold);
+        color: #000;
+        box-shadow: 0 0 16px rgba(255,0,0,0.7);
+    }
+
+    .console-display {
+        background: rgba(5,5,5,0.95);
+        border-radius: 12px;
+        padding: 14px 16px;
+        border: 1px solid var(--gold);
+        font-family: "Consolas", monospace;
+        font-size: 13px;
+        color: #c5ffb7;
+        min-height: 68px;
+        white-space: pre-wrap;
+    }
+
+    /* INTRO OVERLAY */
+    .hud-overlay {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at top, #220000, #000 60%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 9999;
+        transition: opacity 0.8s ease;
+    }
+    .hud-kanji {
+        font-size: 90px;
+        margin-bottom: 10px;
+        color: var(--gold);
+        text-shadow: 0 0 40px #ff0000;
+        font-family: "Yu Mincho", serif;
+    }
+    .hud-terminal {
+        width: 80%;
+        max-width: 500px;
+        background: #000;
+        border-radius: 10px;
+        border: 1px solid var(--gold);
+        padding: 16px;
+        font-family: "Consolas", monospace;
+        color: #c5ffb7;
+    }
+
+    .hud-line {
+        margin: 2px 0;
+        white-space: pre-wrap;
+    }
+
+    .hud-small-note {
+        margin-top: 10px;
+        font-size: 12px;
+        opacity: 0.7;
+    }
+
+    /* PETALS */
+    .petal {
+        position: fixed;
+        top: -40px;
+        width: 14px;
+        height: 18px;
+        background: radial-gradient(circle, #ff6b81, #b30024 70%);
+        border-radius: 70% 50% 70% 50%;
+        opacity: 0.9;
+        pointer-events: none;
+        animation: fall linear forwards;
+        z-index: 2;
+    }
+    @keyframes fall {
+        0% { transform: translate3d(0, -40px, 0) rotate(0deg); }
+        100% { transform: translate3d(var(--driftX), 120vh, 0) rotate(360deg); opacity: 0.3; }
+    }
+
+    /* SCROLL PANEL (new) */
+    .scroll-panel {
+        max-width: 700px;
+        margin: 0 auto 80px;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+        text-align: left;
+    }
+    .scroll-panel.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .scroll-box {
+        background: rgba(10,10,10,0.9);
+        border-radius: 16px;
+        border: 1px solid rgba(212,175,55,0.6);
+        padding: 18px 20px 20px;
+        box-shadow: 0 0 20px rgba(212,175,55,0.4);
+    }
+    .scroll-label {
+        font-size: 12px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        opacity: 0.7;
+        margin-bottom: 6px;
+    }
+    .scroll-title {
+        font-size: 20px;
+        margin-bottom: 8px;
+        text-shadow: 0 0 10px var(--gold);
+    }
+    .scroll-text {
+        font-size: 14px;
+        opacity: 0.85;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 800px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        .stat-meter {
+            grid-column: 1 / span 1;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- AUDIO -->
+<audio id="voiceLine" src="audio/melanyuki-system-online.mp3"></audio>
+
+<!-- INTRO OVERLAY -->
+<div class="hud-overlay" id="hudOverlay">
+    <div class="hud-kanji">ようこそ戦士よ</div>
+    <div class="hud-terminal">
+        <div class="hud-line" id="line1"></div>
+        <div class="hud-line" id="line2"></div>
+        <div class="hud-line" id="line3"></div>
+        <div class="hud-line" id="line4"></div>
+    </div>
+    <div class="hud-small-note">Translating system greeting from Japanese to English…</div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navBar">
+    <a href="index.html" class="active">Home</a>
+    <a href="about.html">About Me</a>
+    <a href="education.html">Education</a>
+    <a href="work.html">Work</a>
+    <a href="contact.html">Contact</a>
+</nav>
+
+<!-- MAIN HOME CONTENT -->
+<div class="container" id="homeContent">
+    <div class="card-wrapper">
+        <div class="card">
+            <img src="images/face.png" alt="Me">
+        </div>
+    </div>
+
+    <h1>MELANYUKI</h1>
+    <p class="sub">
+        Welcome to my cyber-samurai portfolio.<br>
+        Rising tech warrior building a new future ⚔️✨
+    </p>
+
+    <!-- STATS PANEL -->
+    <div class="stats-panel">
+        <div class="stats-title">SYSTEM STATUS: ONLINE</div>
+        <div class="stats-grid">
+            <div class="stat-label">RANK</div><div class="stat-value">SAMURAI-I // TECH INITIATE</div>
+            <div class="stat-label">ORIGIN</div><div class="stat-value">Finland</div>
+            <div class="stat-label">CLASS</div><div class="stat-value">Creative Coder + Designer</div>
+            <div class="stat-label">TRAITS</div><div class="stat-value">Ambitious / Resilient / Fast Learner</div>
+            <div class="stat-meter">XP PROGRESSION
+                <div class="meter-bar">
+                    <div class="meter-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SAMURAI CONSOLE -->
+    <div class="console-section">
+        <div class="console-title">SAMURAI CONSOLE</div>
+        <p class="console-sub">Run a command to inspect different parts of the Melanyuki system.</p>
+        <div class="console-buttons">
+            <button data-command="about">🗡️ ABOUT SYSTEM</button>
+            <button data-command="education">🗡️ SKILLS / EDUCATION</button>
+            <button data-command="work">🗡️ MISSIONS / WORK</button>
+            <button data-command="contact">🗡️ COMMUNICATION LINK</button>
+        </div>
+        <div class="console-display" id="consoleDisplay">> Awaiting command...</div>
+    </div>
+
+    <!-- NEW SCROLL ANIMATION SECTION -->
+    <div class="scroll-panel" id="scrollPanel">
+        <div class="scroll-box">
+            <div class="scroll-label">LOG // 01</div>
+            <div class="scroll-title">From Discipline to Design</div>
+            <div class="scroll-text">
+                My journey blends old-school discipline with modern technology.  
+                I treat every project like a mission: clear goal, sharp execution, and constant improvement.  
+                If you scroll further into my site, you’ll see how I apply this mindset to education, work and creative experiments.
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // INTRO TERMINAL TYPING
+    const overlay = document.getElementById("hudOverlay");
+    const navBar = document.getElementById("navBar");
+    const homeContent = document.getElementById("homeContent");
+    const voiceLine = document.getElementById("voiceLine");
+
+    const line1 = document.getElementById("line1");
+    const line2 = document.getElementById("line2");
+    const line3 = document.getElementById("line3");
+    const line4 = document.getElementById("line4");
+
+    function typeLine(element, text, delay) {
+        setTimeout(() => {
+            let idx = 0;
+            const interval = setInterval(() => {
+                element.textContent = text.slice(0, idx);
+                idx++;
+                if (idx > text.length) clearInterval(interval);
+            }, 30);
+        }, delay);
+    }
+
+    typeLine(line1, "> INPUT: ようこそ戦士よ", 400);
+    typeLine(line2, "> TRANSLATION: Welcome, warrior.", 1500);
+    typeLine(line3, "> PROFILE: MELANYUKI — Rising Tech Samurai", 2600);
+    typeLine(line4, "> ACCESS GRANTED — Enter.", 3700);
+
+    // Audio: try autoplay + also unlock on first click (for browser rules)
+    document.addEventListener("click", () => {
+        if (voiceLine.paused) {
+            voiceLine.play().catch(() => {});
+        }
+    }, { once: true });
+
+    setTimeout(() => {
+        overlay.style.opacity = "0";
+        setTimeout(() => {
+            overlay.style.display = "none";
+        }, 800);
+        navBar.classList.add("visible");
+        homeContent.classList.add("visible");
+
+        voiceLine.play().catch(() => {
+            // if blocked, user click handler above will handle it
+        });
+    }, 4700);
+
+    // SAMURAI CONSOLE
+const consoleDisplay = document.getElementById("consoleDisplay");
+const buttons = document.querySelectorAll(".console-buttons button");
+
+const actions = {
+    about: {
+        msg: [
+            "> Running: scan_system_core.mky",
+            "> Result: Creative coder & designer rising from Finland.",
+            "> Status: System stable. Upgrades in progress..."
+        ],
+        goTo: "about.html"
+    },
+    education: {
+        msg: [
+            "> Loading: education_and_skills.mky",
+            "> Vocational ICT & Business training detected.",
+            "> Skill tree: coding, design, game dev — branches unlocked."
+        ],
+        goTo: "education.html"
+    },
+    work: {
+        msg: [
+            "> Deploying: mission_log.mky",
+            "> Multiple jobs completed: retail, IT, events & more.",
+            "> Conclusion: Field-tested in real-world environments."
+        ],
+        goTo: "work.html"
+    },
+    contact: {
+        msg: [
+            "> Opening: communication_channel.mky",
+            "> Best route: use Contact page terminal.",
+            "> Note: Warrior will reply when available. ⚔️"
+        ],
+        goTo: "contact.html"
+    }
+};
+
+function runCommand(key) {
+    const sequence = actions[key].msg;
+    consoleDisplay.textContent = "";
+    let i = 0;
+
+    const interval = setInterval(() => {
+        consoleDisplay.textContent += (i === 0 ? "" : "\n") + sequence[i];
+        i++;
+        if (i >= sequence.length) {
+            clearInterval(interval);
+            setTimeout(() => {
+                window.location.href = actions[key].goTo;
+            }, 1500);
+        }
+    }, 400);
+}
+
+buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const cmd = btn.getAttribute("data-command");
+        runCommand(cmd);
+    });
+});
+
+
+    // CHERRY BLOSSOM PETALS
+    function createPetal() {
+        const petal = document.createElement("div");
+        petal.classList.add("petal");
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.setProperty("--driftX", (Math.random() * 60 - 30) + "vw");
+        const duration = 9000 + Math.random() * 4000;
+        petal.style.animationDuration = duration + "ms";
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), duration);
+    }
+    setInterval(createPetal, 1200);
+
+    // SCROLL PANEL REVEAL
+    const scrollPanel = document.getElementById("scrollPanel");
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                scrollPanel.classList.add("visible");
+            }
+        });
+    }, { threshold: 0.2 });
+
+    observer.observe(scrollPanel);
+</script>
+
+</body>
+</html>

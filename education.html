@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Education • MELANYUKI</title>
+
+    <style>
+        body {
+            background-color: #000;
+            color: #d4af37;
+            font-family: "Montserrat", sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        nav a {
+            color: #d4af37;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 20px;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #fff;
+            text-shadow: 0 0 10px #d4af37;
+        }
+
+        h1 {
+            font-size: 55px;
+            margin-top: 60px;
+            text-shadow: 0 0 25px #d4af37;
+        }
+
+        h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .divider {
+            width: 200px;
+            height: 3px;
+            background: #d4af37;
+            margin: 10px auto 25px;
+        }
+
+        .section-container {
+            width: 75%;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(212, 175, 55, 0.05);
+            border: 2px solid #d4af37;
+            border-radius: 16px;
+        }
+
+        .school {
+            font-size: 22px;
+            margin: 12px 0;
+            color: #fff;
+            opacity: 0.9;
+        }
+
+        .skill {
+            text-align: left;
+            margin: 18px auto;
+            width: 65%;
+        }
+
+        .skill p {
+            margin: 0;
+            font-size: 22px;
+            color: #fff;
+        }
+
+        .bar {
+            width: 100%;
+            height: 14px;
+            background: #222;
+            border-radius: 10px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: #d4af37;
+            width: 0%;
+            transition: width 1.4s;
+        }
+
+        .lang-bar-fill {
+            height: 100%;
+            background: #ff0000;
+            width: 0%;
+            transition: width 1.4s;
+        }
+
+        .lang {
+            text-align: left;
+            margin: 16px auto;
+            width: 55%;
+        }
+
+        .lang p {
+            margin: 0;
+            font-size: 22px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="education.html">Education</a>
+        <a href="#">Work</a>
+        <a href="#">Socials</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <h1>Education</h1>
+
+    <div class="section-container">
+        <h2>School & Study Journey</h2>
+        <div class="divider"></div>
+
+        <p class="school">📍 2024 – Present: Vocational Qualification in Information & Communications Technology</p>
+        <p class="school">📍 2019 – 2022: Vocational Qualification in Business Administration</p>
+        <p class="school">🎯 Focus: Game Development • Cybersecurity • Tech & Digital Skills</p>
+    </div>
+
+    <div class="section-container">
+        <h2>Current Skills</h2>
+        <div class="divider"></div>
+
+        <div class="skill"><p>HTML</p><div class="bar"><div class="bar-fill" data-level="60"></div></div></div>
+        <div class="skill"><p>CSS</p><div class="bar"><div class="bar-fill" data-level="45"></div></div></div>
+        <div class="skill"><p>Java</p><div class="bar"><div class="bar-fill" data-level="25"></div></div></div>
+        <div class="skill"><p>C#</p><div class="bar"><div class="bar-fill" data-level="30"></div></div></div>
+        <div class="skill"><p>WordPress</p><div class="bar"><div class="bar-fill" data-level="70"></div></div></div>
+        <div class="skill"><p>Photoshop / Adobe</p><div class="bar"><div class="bar-fill" data-level="70"></div></div></div>
+        <div class="skill"><p>Microsoft 365</p><div class="bar"><div class="bar-fill" data-level="70"></div></div></div>
+        <div class="skill"><p>Google Workspace</p><div class="bar"><div class="bar-fill" data-level="60"></div></div></div>
+        <div class="skill"><p>Blender</p><div class="bar"><div class="bar-fill" data-level="50"></div></div></div>
+        <div class="skill"><p>Roblox Studio</p><div class="bar"><div class="bar-fill" data-level="70"></div></div></div>
+    </div>
+
+    <div class="section-container">
+        <h2>Language Skills</h2>
+        <div class="divider"></div>
+
+        <div class="lang"><p>Estonian 🇪🇪</p><div class="bar"><div class="lang-bar-fill" data-level="100"></div></div></div>
+        <div class="lang"><p>Finnish 🇫🇮</p><div class="bar"><div class="lang-bar-fill" data-level="100"></div></div></div>
+        <div class="lang"><p>English 🇺🇸</p><div class="bar"><div class="lang-bar-fill" data-level="95"></div></div></div>
+        <div class="lang"><p>German 🇩🇪</p><div class="bar"><div class="lang-bar-fill" data-level="50"></div></div></div>
+    </div>
+
+    <script>
+        const skillBars = document.querySelectorAll(".bar-fill");
+        skillBars.forEach(bar => {
+            const lvl = bar.getAttribute("data-level");
+            setTimeout(() => bar.style.width = lvl + "%", 300);
+        });
+
+        const langBars = document.querySelectorAll(".lang-bar-fill");
+        langBars.forEach(bar => {
+            const lvl = bar.getAttribute("data-level");
+            setTimeout(() => bar.style.width = lvl + "%", 600);
+        });
+    </script>
+
+</body>
+</html>

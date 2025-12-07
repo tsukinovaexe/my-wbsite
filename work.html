@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Experience | Melanyuki</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: black;
+        color: #ffd66b;
+        text-align: center;
+        overflow-x: hidden;
+    }
+
+    nav {
+        background: #000;
+        padding: 15px;
+        box-shadow: 0px 0px 25px #f7d76c;
+        position: sticky;
+        top: 0;
+        z-index: 999;
+    }
+    nav a {
+        color: #ffd66b;
+        margin: 0 15px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    nav a:hover {
+        text-shadow: 0px 0px 10px #ffea9a;
+    }
+
+    .project-card {
+        width: 75%;
+        margin: 50px auto;
+        background: #0c0c0c;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0px 0px 25px #f7d76c;
+        animation: fadeInUp 1s ease-in-out;
+    }
+    .project-card img {
+        width: 100%;
+        border-radius: 10px;
+        height: 380px;
+        object-fit: cover;
+    }
+    .project-card h2 {
+        font-size: 32px;
+        margin-top: 20px;
+        text-shadow: 0px 0px 8px #ffdf84;
+    }
+    .project-card p {
+        font-size: 18px;
+        opacity: 0.9;
+        margin-bottom: 20px;
+    }
+
+    .roblox-btn {
+        background: #ffd66b;
+        padding: 12px 30px;
+        border-radius: 10px;
+        font-size: 18px;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0px 0px 15px #ffd66b;
+        transition: 0.3s;
+    }
+    .roblox-btn:hover {
+        background: #ffea9a;
+        box-shadow: 0px 0px 30px #ffe28c;
+        transform: scale(1.08);
+    }
+
+    h2 {
+        margin-top: 60px;
+        text-shadow: 0px 0px 12px #ffd66b;
+        font-size: 32px;
+    }
+    .timeline-container {
+        width: 75%;
+        margin: 25px auto;
+        overflow: hidden;
+        position: relative;
+        height: 330px;
+    }
+    .timeline {
+        display: flex;
+        transition: transform 0.7s ease;
+    }
+    .timeline-item {
+        min-width: 100%;
+        text-align: center;
+        padding: 20px;
+        background: #111;
+        border-radius: 12px;
+        box-shadow: 0px 0px 15px #ffd66b;
+        animation: fadeInUp 0.7s ease-in-out;
+    }
+    .timeline-item img {
+        width: 200px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .arrow-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+    }
+    .arrow-btn {
+        width: 45px;
+        height: 45px;
+        border: 2px solid #ffd66b;
+        background: black;
+        color: #ffd66b;
+        font-size: 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .arrow-btn:hover {
+        background: #ffd66b;
+        color: black;
+        box-shadow: 0px 0px 15px #ffd66b;
+    }
+
+    @keyframes fadeInUp {
+        from {opacity: 0; transform: translateY(30px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About Me</a>
+    <a href="education.html">Education</a>
+    <a href="work.html">Work</a>
+    <a href="contact.html">Contact</a>
+</nav>
+
+<div class="project-card">
+    <img src="images/obby.jpg" alt="Roblox Game Preview">
+    <h2>Dangerous Scary Obby</h2>
+    <p>My first Roblox game — spooky & chaotic fun. More projects coming soon!</p>
+    <a class="roblox-btn" href="https://www.roblox.com/games/11901839191/dangerous-scary-obby" target="_blank">Play on Roblox 🎮</a>
+</div>
+
+<h2>Work Experience Timeline</h2>
+<p>Swipe through my jobs & my journey 🔥</p>
+
+<div class="timeline-container">
+    <div class="timeline" id="timeline">
+        <div class="timeline-item">
+            <img src="images/micromagic.jpg">
+            <h3>IT-tukihenkilö / Asentaja</h3>
+            <p>Micro Magic Oy • 2025</p>
+        </div>
+
+        <div class="timeline-item">
+            <img src="images/leppakoski.jpg">
+            <h3>Toimistotyöntekijä</h3>
+            <p>Leppäkoski Oy • 2022</p>
+        </div>
+
+        <div class="timeline-item">
+            <img src="images/vaalit.jpg">
+            <h3>Vaalitoimitsija</h3>
+            <p>Ikaalisten Kaupungintalo • 2022</p>
+        </div>
+
+        <div class="timeline-item">
+            <img src="images/smarket.jpg">
+            <h3>Myyjä</h3>
+            <p>S-Market Ikaalinen • 2023 — Osa-aikainen</p>
+        </div>
+
+        <div class="timeline-item">
+            <img src="images/spa.jpg">
+            <h3>Tapahtumatyöntekijä</h3>
+            <p>Ikaalinen Spa & Resort • 2022</p>
+        </div>
+
+        <div class="timeline-item">
+            <img src="images/archive.jpg">
+            <h3>Arkistonhoitaja</h3>
+            <p>Ikaalisten Kaupungintalo • 2021 (Kesätyö)</p>
+        </div>
+    </div>
+</div>
+
+<div class="arrow-container">
+    <button class="arrow-btn" onclick="moveSlide(-1)">❮</button>
+    <button class="arrow-btn" onclick="moveSlide(1)">❯</button>
+</div>
+
+<script>
+let currentIndex = 0;
+function moveSlide(direction) {
+    const timeline = document.getElementById('timeline');
+    const totalSlides = timeline.children.length;
+    currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+    timeline.style.transform = `translateX(-${currentIndex * 100}%)`;
+}
+</script>
+
+</body>
+</html>
