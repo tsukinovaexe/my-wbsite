@@ -1,546 +1,625 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MELANYUKI • Home</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MELANYUKI • Home</title>
 
-<style>
+  <style>
     :root {
-        --gold: #d4af37;
-        --gold-soft: #ffea9a;
-        --red: #ff1a1a;
-        --bg-dark: #050505;
+      --gold: #d4af37;
+      --gold-soft: #ffea9a;
+      --bg-dark: #050505;
+      --card-bg: #101010;
+      --console-bg: #0b0b0b;
+      --accent-pink: #ff77c8;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
-        margin: 0;
-        background-color: var(--bg-dark);
-        color: var(--gold);
-        font-family: "Montserrat", system-ui, sans-serif;
-        text-align: center;
-        overflow-x: hidden;
+      margin: 0;
+      background: var(--bg-dark);
+      color: var(--gold);
+      font-family: "Montserrat", system-ui, sans-serif;
+      text-align: center;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
-    /* NAVBAR */
+    a {
+      color: inherit;
+    }
+
+    /* ---------------- NAVBAR ---------------- */
     nav {
-        margin-top: 20px;
-        opacity: 0;
-        transition: opacity 0.8s ease;
+      margin-top: 18px;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      position: relative;
+      z-index: 5;
     }
-    nav.visible { opacity: 1; }
+
+    nav.visible {
+      opacity: 1;
+    }
+
     nav a {
-        color: var(--gold);
-        text-decoration: none;
-        font-size: 18px;
-        margin: 0 20px;
-        font-weight: 600;
-        transition: 0.3s;
-    }
-    nav a:hover {
-        color: #fff;
-        text-shadow: 0 0 10px var(--gold);
-    }
-    nav .active {
-        color: #fff;
-        text-shadow: 0 0 14px #fff;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 18px;
+      margin: 0 18px;
+      font-weight: 600;
+      position: relative;
     }
 
-    /* MAIN CONTENT */
-    .container {
-        margin-top: 100px;
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      box-shadow: 0 0 10px var(--gold-soft);
+      transition: width 0.25s ease;
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #ffffff;
+      text-shadow: 0 0 10px var(--gold-soft);
+    }
+
+    /* ---------------- INTRO OVERLAY ---------------- */
+    #intro-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #111 0%, #000 50%, #000 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+      color: var(--gold-soft);
+    }
+
+    #intro-jp {
+      font-size: 40px;
+      letter-spacing: 6px;
+      margin-bottom: 8px;
+    }
+
+    #intro-en {
+      font-size: 24px;
+      height: 32px;
+      font-family: "Space Mono", monospace;
+      color: var(--gold-soft);
+    }
+
+    #intro-sub {
+      margin-top: 14px;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    #intro-overlay.hidden {
+      animation: introFadeOut 1s forwards;
+    }
+
+    @keyframes introFadeOut {
+      to {
         opacity: 0;
-        transition: opacity 0.8s ease;
-    }
-    .container.visible { opacity: 1; }
-
-    .card-wrapper {
-        perspective: 1100px;
-        display: inline-block;
+        visibility: hidden;
+      }
     }
 
-    .card {
-        width: 300px;
-        height: 420px;
-        background: #111;
-        border-radius: 20px;
-        overflow: hidden;
-        border: 2px solid var(--gold);
-        box-shadow: 0 0 28px rgba(212,175,55,0.7);
-        transform-style: preserve-3d;
-        transition: transform 0.2s;
-        margin-bottom: 35px;
-    }
-    .card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transform: translateZ(40px);
-    }
-    .card:hover {
-        transform: rotateX(8deg) rotateY(-8deg);
+    /* ---------------- HERO SECTION ---------------- */
+    .hero-wrapper {
+      margin-top: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 26px;
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+      position: relative;
+      z-index: 3;
     }
 
-    h1 {
-        font-size: 52px;
-        margin-bottom: 10px;
-        text-shadow: 0 0 26px var(--gold);
-    }
-    p.sub {
-        font-size: 20px;
-        opacity: 0.9;
-        max-width: 650px;
-        margin: 0 auto 35px;
+    .hero-wrapper.visible {
+      opacity: 1;
     }
 
-    /* STATS PANEL */
-    @keyframes hudPulse {
-        0% { box-shadow: 0 0 18px rgba(212,175,55,0.5); }
-        50% { box-shadow: 0 0 28px rgba(212,175,55,0.9); }
-        100% { box-shadow: 0 0 18px rgba(212,175,55,0.5); }
-    }
-    .stats-panel {
-        max-width: 650px;
-        margin: 0 auto 40px;
-        text-align: left;
-        background: rgba(15,15,15,0.8);
-        border-radius: 18px;
-        border: 2px solid var(--gold);
-        padding: 18px 20px 20px;
-        animation: hudPulse 4s infinite ease-in-out;
-    }
-
-    .stats-title {
-        font-size: 18px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        margin-bottom: 12px;
-        opacity: 0.9;
-        text-shadow: 0 0 10px var(--gold);
+    .hero-card {
+      width: 260px;
+      height: 360px;
+      background: radial-gradient(circle at top left, #222 0%, #050505 55%);
+      border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow:
+        0 0 25px rgba(212, 175, 55, 0.25),
+        0 0 60px rgba(212, 175, 55, 0.1);
+      overflow: hidden;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out, box-shadow 0.2s ease;
+      cursor: pointer;
     }
 
-    .stats-grid {
-        display: grid;
-        grid-template-columns: 1.1fr 1.4fr;
-        row-gap: 8px;
-        column-gap: 10px;
-        font-size: 15px;
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -60%;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.07), transparent 55%),
+        radial-gradient(circle at 80% 100%, rgba(255, 215, 0, 0.18), transparent 55%);
+      mix-blend-mode: screen;
+      opacity: 0.8;
+      pointer-events: none;
     }
 
-    .stat-label {
-        opacity: 0.8;
-        letter-spacing: 1px;
-        font-size: 13px;
-        text-transform: uppercase;
-    }
-    .stat-value {
-        color: var(--gold-soft);
-        font-weight: 600;
+    .hero-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.2) contrast(1.05);
     }
 
-    .stat-meter {
-        grid-column: 1 / span 2;
-        margin-top: 6px;
-        font-size: 13px;
-    }
-    .meter-bar {
-        width: 100%;
-        height: 10px;
-        border-radius: 999px;
-        background: #111;
-        overflow: hidden;
-        margin-top: 4px;
-    }
-    .meter-fill {
-        width: 73%;
-        height: 100%;
-        background: linear-gradient(90deg, var(--red), var(--gold));
+    .hero-card:hover {
+      box-shadow:
+        0 0 30px rgba(212, 175, 55, 0.4),
+        0 0 80px rgba(212, 175, 55, 0.18);
     }
 
-    /* SAMURAI CONSOLE */
+    .hero-title {
+      font-size: 46px;
+      font-weight: 800;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+      text-shadow: 0 0 18px rgba(212, 175, 55, 0.9);
+      margin-bottom: 4px;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--gold-soft);
+      margin-top: -6px;
+    }
+
+    .hero-tagline {
+      font-size: 15px;
+      opacity: 0.85;
+      max-width: 680px;
+      margin: 6px auto 0;
+    }
+
+    .button-primary {
+      display: inline-block;
+      margin-top: 22px;
+      background: var(--gold);
+      color: #000;
+      padding: 14px 30px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      box-shadow:
+        0 0 18px rgba(212, 175, 55, 0.8),
+        0 0 40px rgba(212, 175, 55, 0.2);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .button-primary:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow:
+        0 0 24px rgba(212, 175, 55, 1),
+        0 0 60px rgba(212, 175, 55, 0.3);
+    }
+
+    /* ---------------- SAMURAI CONSOLE ---------------- */
     .console-section {
-        max-width: 700px;
-        margin: 0 auto 40px;
-        text-align: left;
+      margin: 80px auto 60px;
+      max-width: 900px;
+      padding: 40px 32px 36px;
+      background: radial-gradient(circle at top, #171717 0%, #090909 45%, #050505 100%);
+      border-radius: 26px;
+      box-shadow:
+        0 0 34px rgba(212, 175, 55, 0.35),
+        0 0 120px rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      position: relative;
+      z-index: 3;
     }
+
     .console-title {
-        text-align: center;
-        font-size: 22px;
-        margin-bottom: 8px;
-        text-shadow: 0 0 14px var(--gold);
+      font-size: 26px;
+      margin-bottom: 6px;
+      text-shadow: 0 0 14px var(--gold-soft);
     }
+
     .console-sub {
-        text-align: center;
-        font-size: 14px;
-        opacity: 0.8;
-        margin-bottom: 18px;
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 24px;
     }
+
     .console-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-        margin-bottom: 12px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
     }
-    .console-buttons button {
-        background: transparent;
-        border-radius: 999px;
-        border: 1px solid var(--gold);
-        color: var(--gold-soft);
-        padding: 8px 18px;
-        font-size: 13px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        transition: 0.25s;
+
+    .console-btn {
+      background: transparent;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.6);
+      color: var(--gold-soft);
+      padding: 9px 20px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
     }
-    .console-buttons button:hover {
-        background: var(--gold);
-        color: #000;
-        box-shadow: 0 0 16px rgba(255,0,0,0.7);
+
+    .console-btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.35), transparent 55%);
+      opacity: 0;
+      transform: translateX(-40%);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+    }
+
+    .console-btn:hover::before {
+      opacity: 1;
+      transform: translateX(40%);
+    }
+
+    .console-btn:hover {
+      background: rgba(212, 175, 55, 0.2);
+      transform: translateY(-1px);
     }
 
     .console-display {
-        background: rgba(5,5,5,0.95);
-        border-radius: 12px;
-        padding: 14px 16px;
-        border: 1px solid var(--gold);
-        font-family: "Consolas", monospace;
-        font-size: 13px;
-        color: #c5ffb7;
-        min-height: 68px;
-        white-space: pre-wrap;
+      text-align: left;
+      background: #020202;
+      border-radius: 14px;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 14px 18px;
+      font-family: "Space Mono", monospace;
+      color: #e0ffd8;
+      font-size: 13px;
+      min-height: 74px;
+      box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
     }
 
-    /* INTRO OVERLAY */
-    .hud-overlay {
-        position: fixed;
-        inset: 0;
-        background: radial-gradient(circle at top, #220000, #000 60%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        z-index: 9999;
-        transition: opacity 0.8s ease;
-    }
-    .hud-kanji {
-        font-size: 90px;
-        margin-bottom: 10px;
-        color: var(--gold);
-        text-shadow: 0 0 40px #ff0000;
-        font-family: "Yu Mincho", serif;
-    }
-    .hud-terminal {
-        width: 80%;
-        max-width: 500px;
-        background: #000;
-        border-radius: 10px;
-        border: 1px solid var(--gold);
-        padding: 16px;
-        font-family: "Consolas", monospace;
-        color: #c5ffb7;
+    .console-display::before {
+      content: "● ● ●";
+      position: absolute;
+      top: 8px;
+      right: 14px;
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.45);
+      letter-spacing: 3px;
     }
 
-    .hud-line {
-        margin: 2px 0;
-        white-space: pre-wrap;
+    .log-section {
+      margin-top: 26px;
+      text-align: left;
     }
 
-    .hud-small-note {
-        margin-top: 10px;
-        font-size: 12px;
-        opacity: 0.7;
+    .log-label {
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 8px;
     }
 
-    /* PETALS */
+    .log-card {
+      background: #050505;
+      border-radius: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 16px 18px;
+      font-size: 13px;
+      color: var(--gold-soft);
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.25);
+    }
+
+    .log-card strong {
+      color: #ffffff;
+    }
+
+    /* ---------------- PETALS ---------------- */
     .petal {
-        position: fixed;
-        top: -40px;
-        width: 14px;
-        height: 18px;
-        background: radial-gradient(circle, #ff6b81, #b30024 70%);
-        border-radius: 70% 50% 70% 50%;
-        opacity: 0.9;
-        pointer-events: none;
-        animation: fall linear forwards;
-        z-index: 2;
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle, var(--accent-pink) 0%, #ffb3e2 50%, transparent 65%);
+      pointer-events: none;
+      opacity: 0.7;
+      animation: fall linear infinite;
+      z-index: 1;
     }
+
     @keyframes fall {
-        0% { transform: translate3d(0, -40px, 0) rotate(0deg); }
-        100% { transform: translate3d(var(--driftX), 120vh, 0) rotate(360deg); opacity: 0.3; }
-    }
-
-    /* SCROLL PANEL (new) */
-    .scroll-panel {
-        max-width: 700px;
-        margin: 0 auto 80px;
+      0% {
+        transform: translate3d(0, -10vh, 0);
         opacity: 0;
-        transform: translateY(40px);
-        transition: opacity 0.8s ease, transform 0.8s ease;
-        text-align: left;
-    }
-    .scroll-panel.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    .scroll-box {
-        background: rgba(10,10,10,0.9);
-        border-radius: 16px;
-        border: 1px solid rgba(212,175,55,0.6);
-        padding: 18px 20px 20px;
-        box-shadow: 0 0 20px rgba(212,175,55,0.4);
-    }
-    .scroll-label {
-        font-size: 12px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        opacity: 0.7;
-        margin-bottom: 6px;
-    }
-    .scroll-title {
-        font-size: 20px;
-        margin-bottom: 8px;
-        text-shadow: 0 0 10px var(--gold);
-    }
-    .scroll-text {
-        font-size: 14px;
-        opacity: 0.85;
-        line-height: 1.6;
+      }
+      10% {
+        opacity: 0.9;
+      }
+      100% {
+        transform: translate3d(var(-- drift), 110vh, 0);
+        opacity: 0;
+      }
     }
 
-    @media (max-width: 800px) {
-        .stats-grid {
-            grid-template-columns: 1fr;
-        }
-        .stat-meter {
-            grid-column: 1 / span 1;
-        }
+    /* ------------- RESPONSIVE ------------- */
+    @media (max-width: 768px) {
+      nav a {
+        margin: 0 10px;
+        font-size: 16px;
+      }
+
+      .hero-wrapper {
+        margin-top: 60px;
+      }
+
+      .hero-title {
+        font-size: 32px;
+        letter-spacing: 6px;
+      }
+
+      .console-section {
+        margin: 60px 16px 50px;
+        padding: 26px 20px 24px;
+      }
     }
-</style>
+  </style>
 </head>
+
 <body>
+  <!-- INTRO OVERLAY -->
+  <div id="intro-overlay">
+    <div id="intro-jp">ようこそ戦士</div>
+    <div id="intro-en"></div>
+    <div id="intro-sub">Melanyuki system boot sequence…</div>
+  </div>
 
-<!-- AUDIO -->
-<audio id="voiceLine" src="audio/melanyuki-system-online.mp3"></audio>
+  <!-- NAVBAR -->
+  <nav id="main-nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="about.html">About Me</a>
+    <a href="education.html">Education</a>
+    <a href="work.html">Work</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 
-<!-- INTRO OVERLAY -->
-<div class="hud-overlay" id="hudOverlay">
-    <div class="hud-kanji">ようこそ戦士よ</div>
-    <div class="hud-terminal">
-        <div class="hud-line" id="line1"></div>
-        <div class="hud-line" id="line2"></div>
-        <div class="hud-line" id="line3"></div>
-        <div class="hud-line" id="line4"></div>
-    </div>
-    <div class="hud-small-note">Translating system greeting from Japanese to English…</div>
-</div>
-
-<!-- NAVBAR -->
-<nav>
-  <a href="index.html">Home</a>
-  <a href="about.html">About Me</a>
-  <a href="education.html">Education</a>
-  <a href="work.html">Work</a>
-  <a href="contact.html">Contact</a>
-</nav>
-
-<!-- MAIN HOME CONTENT -->
-<div class="container" id="homeContent">
-    <div class="card-wrapper">
-        <div class="card">
-            <img src="images/face.png" alt="Me">
-        </div>
+  <!-- HERO / PROFILE -->
+  <section class="hero-wrapper" id="hero">
+    <div class="hero-card" id="hero-card">
+      <!-- your 3D holo card image -->
+      <img src="images/face.png" alt="Melanyuki portrait" />
     </div>
 
-    <h1>MELANYUKI</h1>
-    <p class="sub">
-        Welcome to my cyber-samurai portfolio.<br>
-        Rising tech warrior building a new future ⚔️✨
+    <div>
+      <div class="hero-title">MELANYUKI</div>
+      <div class="hero-sub">Creative Coder & Futuristic Samurai ⚔️</div>
+      <p class="hero-tagline">
+        Blending design, code, and discipline. This site is my living CV & portfolio —
+        a samurai path from first Roblox obby to future AAA game studios.
+      </p>
+      <a href="about.html" class="button-primary">Enter Portfolio 🌸</a>
+    </div>
+  </section>
+
+  <!-- SAMURAI CONSOLE -->
+  <section class="console-section">
+    <h2 class="console-title">SAMURAI CONSOLE</h2>
+    <p class="console-sub">
+      Run a quick scan on the Melanyuki system. Choose a command to inspect different parts of my journey.
     </p>
 
-    <!-- STATS PANEL -->
-    <div class="stats-panel">
-        <div class="stats-title">SYSTEM STATUS: ONLINE</div>
-        <div class="stats-grid">
-            <div class="stat-label">RANK</div><div class="stat-value">SAMURAI-I // TECH INITIATE</div>
-            <div class="stat-label">ORIGIN</div><div class="stat-value">Finland</div>
-            <div class="stat-label">CLASS</div><div class="stat-value">Creative Coder + Designer</div>
-            <div class="stat-label">TRAITS</div><div class="stat-value">Ambitious / Resilient / Fast Learner</div>
-            <div class="stat-meter">XP PROGRESSION
-                <div class="meter-bar">
-                    <div class="meter-fill"></div>
-                </div>
-            </div>
-        </div>
+    <div class="console-buttons">
+      <button class="console-btn" data-command="about">⚙ ABOUT SYSTEM</button>
+      <button class="console-btn" data-command="skills">🗡 SKILLS / EDUCATION</button>
+      <button class="console-btn" data-command="missions">🎮 MISSIONS / WORK</button>
+      <button class="console-btn" data-command="contact">✉ COMMUNICATION LINK</button>
     </div>
 
-    <!-- SAMURAI CONSOLE -->
-    <div class="console-section">
-        <div class="console-title">SAMURAI CONSOLE</div>
-        <p class="console-sub">Run a command to inspect different parts of the Melanyuki system.</p>
-        <div class="console-buttons">
-            <button data-command="about">🗡️ ABOUT SYSTEM</button>
-            <button data-command="education">🗡️ SKILLS / EDUCATION</button>
-            <button data-command="work">🗡️ MISSIONS / WORK</button>
-            <button data-command="contact">🗡️ COMMUNICATION LINK</button>
-        </div>
-        <div class="console-display" id="consoleDisplay">> Awaiting command...</div>
+    <div class="console-display" id="console-display">
+      &gt; Ready. Waiting for command…
     </div>
 
-    <!-- NEW SCROLL ANIMATION SECTION -->
-    <div class="scroll-panel" id="scrollPanel">
-        <div class="scroll-box">
-            <div class="scroll-label">LOG // 01</div>
-            <div class="scroll-title">From Discipline to Design</div>
-            <div class="scroll-text">
-                My journey blends old-school discipline with modern technology.  
-                I treat every project like a mission: clear goal, sharp execution, and constant improvement.  
-                If you scroll further into my site, you’ll see how I apply this mindset to education, work and creative experiments.
-            </div>
-        </div>
+    <div class="log-section">
+      <div class="log-label">LOG // 01</div>
+      <div class="log-card">
+        <strong>From Discipline to Design.</strong>  
+        IT & Business studies, real jobs in retail, events & city hall, plus a spooky Roblox obby
+        — everything combines into one goal: a high-paying tech / game dev career that buys freedom,
+        peace, and a BMW with brown seats.
+      </div>
     </div>
+  </section>
 
-</div>
+  <!-- AUDIO -->
+  <audio id="intro-audio" src="audio/melanyuki-system-online.mp3"></audio>
 
-<script>
-    // INTRO TERMINAL TYPING
-    const overlay = document.getElementById("hudOverlay");
-    const navBar = document.getElementById("navBar");
-    const homeContent = document.getElementById("homeContent");
-    const voiceLine = document.getElementById("voiceLine");
+  <script>
+    /* ---------------- TEXT SCRAMBLE FOR INTRO ENGLISH ---------------- */
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const targetText = "WELCOME, WARRIOR";
 
-    const line1 = document.getElementById("line1");
-    const line2 = document.getElementById("line2");
-    const line3 = document.getElementById("line3");
-    const line4 = document.getElementById("line4");
+    function scrambleText(element, finalText, duration = 1600) {
+      let frame = 0;
+      const totalFrames = Math.round(duration / 30);
 
-    function typeLine(element, text, delay) {
-        setTimeout(() => {
-            let idx = 0;
-            const interval = setInterval(() => {
-                element.textContent = text.slice(0, idx);
-                idx++;
-                if (idx > text.length) clearInterval(interval);
-            }, 30);
-        }, delay);
-    }
+      const interval = setInterval(() => {
+        const progress = frame / totalFrames;
+        const output = finalText
+          .split("")
+          .map((char, index) => {
+            if (char === " ") return " ";
+            if (index < finalText.length * progress) return char;
+            return letters[Math.floor(Math.random() * letters.length)];
+          })
+          .join("");
 
-    typeLine(line1, "> INPUT: ようこそ戦士よ", 400);
-    typeLine(line2, "> TRANSLATION: Welcome, warrior.", 1500);
-    typeLine(line3, "> PROFILE: MELANYUKI — Rising Tech Samurai", 2600);
-    typeLine(line4, "> ACCESS GRANTED — Enter.", 3700);
+        element.textContent = output;
+        frame++;
 
-    // Audio: try autoplay + also unlock on first click (for browser rules)
-    document.addEventListener("click", () => {
-        if (voiceLine.paused) {
-            voiceLine.play().catch(() => {});
+        if (frame >= totalFrames) {
+          element.textContent = finalText;
+          clearInterval(interval);
         }
-    }, { once: true });
-
-    setTimeout(() => {
-        overlay.style.opacity = "0";
-        setTimeout(() => {
-            overlay.style.display = "none";
-        }, 800);
-        navBar.classList.add("visible");
-        homeContent.classList.add("visible");
-
-        voiceLine.play().catch(() => {
-            // if blocked, user click handler above will handle it
-        });
-    }, 4700);
-
-    // SAMURAI CONSOLE
-const consoleDisplay = document.getElementById("consoleDisplay");
-const buttons = document.querySelectorAll(".console-buttons button");
-
-const actions = {
-    about: {
-        msg: [
-            "> Running: scan_system_core.mky",
-            "> Result: Creative coder & designer rising from Finland.",
-            "> Status: System stable. Upgrades in progress..."
-        ],
-        goTo: "about.html"
-    },
-    education: {
-        msg: [
-            "> Loading: education_and_skills.mky",
-            "> Vocational ICT & Business training detected.",
-            "> Skill tree: coding, design, game dev — branches unlocked."
-        ],
-        goTo: "education.html"
-    },
-    work: {
-        msg: [
-            "> Deploying: mission_log.mky",
-            "> Multiple jobs completed: retail, IT, events & more.",
-            "> Conclusion: Field-tested in real-world environments."
-        ],
-        goTo: "work.html"
-    },
-    contact: {
-        msg: [
-            "> Opening: communication_channel.mky",
-            "> Best route: use Contact page terminal.",
-            "> Note: Warrior will reply when available. ⚔️"
-        ],
-        goTo: "contact.html"
+      }, 30);
     }
-};
 
-function runCommand(key) {
-    const sequence = actions[key].msg;
-    consoleDisplay.textContent = "";
-    let i = 0;
+    /* ---------------- INTRO + NAV + HERO ---------------- */
+    window.addEventListener("load", () => {
+      const introOverlay = document.getElementById("intro-overlay");
+      const introEn = document.getElementById("intro-en");
+      const nav = document.getElementById("main-nav");
+      const hero = document.getElementById("hero");
+      const audio = document.getElementById("intro-audio");
 
-    const interval = setInterval(() => {
-        consoleDisplay.textContent += (i === 0 ? "" : "\n") + sequence[i];
+      // Start scramble
+      scrambleText(introEn, targetText);
+
+      // Try to play audio (may be blocked on some browsers)
+      audio.play().catch(() => {});
+
+      // After ~2.3s, fade overlay & reveal content
+      setTimeout(() => {
+        introOverlay.classList.add("hidden");
+        nav.classList.add("visible");
+        hero.classList.add("visible");
+      }, 2300);
+    });
+
+    /* ---------------- Holo card tilt ---------------- */
+    const heroCard = document.getElementById("hero-card");
+    heroCard.addEventListener("mousemove", (e) => {
+      const rect = heroCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const rotateY = ((x / rect.width) - 0.5) * 18;
+      const rotateX = ((y / rect.height) - 0.5) * -18;
+      heroCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+    heroCard.addEventListener("mouseleave", () => {
+      heroCard.style.transform = "rotateX(0deg) rotateY(0deg)";
+    });
+
+    /* ---------------- Samurai console logic ---------------- */
+    const consoleDisplay = document.getElementById("console-display");
+    const consoleButtons = document.querySelectorAll(".console-btn");
+
+    const actions = {
+      about: {
+        msg:
+          "> Loading system profile…\n" +
+          "> Name: Melany (Melanyuki)\n" +
+          "> Role: Creative coder, designer, future game dev.\n" +
+          "> Redirecting to: About Me...",
+        link: "about.html"
+      },
+      skills: {
+        msg:
+          "> Scanning skills & education…\n" +
+          "> Tracks: IT, Business, Cyber Security, Game Dev.\n" +
+          "> Progress: Leveling up daily.\n" +
+          "> Redirecting to: Education...",
+        link: "education.html"
+      },
+      missions: {
+        msg:
+          "> Loading mission log…\n" +
+          "> Retail, events, IT support, city hall, Roblox game dev.\n" +
+          "> Proof: Melany touches real work, not just theory.\n" +
+          "> Redirecting to: Work...",
+        link: "work.html"
+      },
+      contact: {
+        msg:
+          "> Opening communication channel…\n" +
+          "> Protocol: Email / Social links.\n" +
+          "> Target: Recruiters, studios, teams.\n" +
+          "> Redirecting to: Contact...",
+        link: "contact.html"
+      }
+    };
+
+    function runCommand(key) {
+      const cfg = actions[key];
+      if (!cfg) return;
+
+      let i = 0;
+      consoleDisplay.textContent = "";
+
+      const lines = cfg.msg.split("\n");
+      const interval = setInterval(() => {
+        consoleDisplay.textContent += lines[i] + "\n";
         i++;
-        if (i >= sequence.length) {
-            clearInterval(interval);
-            setTimeout(() => {
-                window.location.href = actions[key].goTo;
-            }, 1500);
+        if (i >= lines.length) {
+          clearInterval(interval);
+          setTimeout(() => {
+            window.location.href = cfg.link;
+          }, 700);
         }
-    }, 400);
-}
+      }, 250);
+    }
 
-buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
+    consoleButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
         const cmd = btn.getAttribute("data-command");
         runCommand(cmd);
+      });
     });
-});
 
-
-    // CHERRY BLOSSOM PETALS
+    /* ---------------- Sakura particles ---------------- */
     function createPetal() {
-        const petal = document.createElement("div");
-        petal.classList.add("petal");
-        petal.style.left = Math.random() * 100 + "vw";
-        petal.style.setProperty("--driftX", (Math.random() * 60 - 30) + "vw");
-        const duration = 9000 + Math.random() * 4000;
-        petal.style.animationDuration = duration + "ms";
-        document.body.appendChild(petal);
-        setTimeout(() => petal.remove(), duration);
+      const petal = document.createElement("div");
+      petal.classList.add("petal");
+      const size = Math.random() * 6 + 4;
+      const duration = Math.random() * 12 + 10;
+      const delay = Math.random() * -20;
+      const left = Math.random() * 100;
+      const drift = (Math.random() * 80 - 40) + "px";
+
+      petal.style.width = size + "px";
+      petal.style.height = size + "px";
+      petal.style.left = left + "vw";
+      petal.style.animationDuration = duration + "s";
+      petal.style.animationDelay = delay + "s";
+      petal.style.setProperty("-- drift", drift);
+
+      document.body.appendChild(petal);
     }
-    setInterval(createPetal, 1200);
 
-    // SCROLL PANEL REVEAL
-    const scrollPanel = document.getElementById("scrollPanel");
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                scrollPanel.classList.add("visible");
-            }
-        });
-    }, { threshold: 0.2 });
-
-    observer.observe(scrollPanel);
-</script>
-
+    for (let i = 0; i < 40; i++) {
+      createPetal();
+    }
+  </script>
 </body>
 </html>
